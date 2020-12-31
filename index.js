@@ -1,7 +1,7 @@
 const { app } = require("electron");
-const traqTimelineWindow = require("./main/createWindow");
+const NikoQWindow = require("./main/createWindow");
 
-class TraQTimeLine {
+class NikoQ {
   constructor() {
     this.mainWindow = null;
   }
@@ -13,11 +13,11 @@ class TraQTimeLine {
 
   initApp() {
     app.on("ready", () => {
-      this.createTraqWindow();
+      this.createNikoQWindow();
     });
     app.on("activate", () => {
       if (this.mainWindow == null) {
-        this.createTraqWindow();
+        this.createNikoQWindow();
       } else {
         this.mainWindow.show();
       }
@@ -31,10 +31,10 @@ class TraQTimeLine {
 
   initIPC() {}
 
-  createTraqWindow() {
-    this.mainWindow = new traqTimelineWindow();
+  createNikoQWindow() {
+    this.mainWindow = new NikoQWindow();
     this.mainWindow.loadFile(`file://${__dirname}/index.html`);
   }
 }
 
-new TraQTimeLine().init();
+new NikoQ().init();

@@ -1,6 +1,6 @@
 const { app, BrowserWindow } = require("electron");
 
-class TraqTimelineWindow {
+class NikoQWindow {
   constructor() {
     this.window = null;
     this.isShown = false;
@@ -42,4 +42,4 @@ class TraqTimelineWindow {
   }
 }
 
-module.exports = TraqTimelineWindow;
+module.exports = NikoQWindow;
