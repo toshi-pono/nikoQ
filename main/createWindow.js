@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require("electron");
+const path = require("path");
 
 class NikoQWindow {
   constructor() {
@@ -9,15 +10,27 @@ class NikoQWindow {
   }
   createWindow() {
     this.window = new BrowserWindow({
+      title: "nikoQ",
       width: 800,
       height: 800,
       autoHideMenuBar: true,
       //fullscreen: true
+
+      webPreferences: {
+        // In Electron 12, the default will be changed to true.
+        worldSafeExecuteJavaScript: true,
+        // XSS対策としてnodeモジュールをレンダラープロセスで使えなくする
+        nodeIntegration: false,
+        // レンダラープロセスに公開するAPIのファイル
+        //（Electron 11 から、デフォルト：falseが非推奨となった）
+        contextIsolation: true,
+        preload: path.resolve("./preload.js"),
+      },
     });
     // ウィンドウ最大化
     // this.window.setSimpleFullScreen(true)
     // デベロッパーツール自動起動
-    // this.window.webContents.openDevTools();
+    this.window.webContents.openDevTools();
   }
   loadFile(url) {
     this.window.loadURL(url);

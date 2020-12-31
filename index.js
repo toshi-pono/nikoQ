@@ -1,4 +1,4 @@
-const { app } = require("electron");
+const { app, ipcMain } = require("electron");
 const NikoQWindow = require("./main/createWindow");
 
 class NikoQ {
@@ -29,7 +29,14 @@ class NikoQ {
     });
   }
 
-  initIPC() {}
+  initIPC() {
+    ipcMain.handle("invoke-test", (event, message) => {
+      // message には 呼び出し元からのデータ ('ping') が入っている
+      console.log(message);
+      // renderer プロセスにデータを返す
+      return "pong";
+    });
+  }
 
   createNikoQWindow() {
     this.mainWindow = new NikoQWindow();
