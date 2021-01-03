@@ -11,21 +11,24 @@ class AutoReconnectWebSocket extends EventEmitter {
     this._ws = new WebSocket(this.url, this.protocols);
     this._ws.on("open", () => {
       console.log("open");
-      this._onTimelineStreaming();
+      this.onTimelineStreaming();
     });
 
-    this._ws.on("message", (data) => {
-      console.log(data);
-      this.emit("message", data);
-    });
+    // this._ws.on("message", (data) => {
+    //   console.log(data);
+    //   this.emit("message", data);
+    // });
   }
-  _onTimelineStreaming() {
+  onTimelineStreaming() {
     console.log("timeline_streaming:on");
     this._ws.send("timeline_streaming:on");
   }
 
   connect() {
     this._setupWs();
+  }
+  get ws() {
+    return this._ws;
   }
 }
 

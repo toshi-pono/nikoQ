@@ -1,7 +1,6 @@
 const { app, ipcMain } = require("electron");
 const NikoQWindow = require("./main/createWindow");
 const AutoReconnectWebSocket = require("./main/websocket");
-const wsEvent = require("./main/wsEvent");
 
 // *** とりあえずテスト用 ***
 const Cookie = require("./cookie");
@@ -11,6 +10,7 @@ class NikoQ {
   constructor() {
     this.mainWindow = null;
     this.websocket = null;
+    this.websocketEvent = null;
   }
 
   init() {
@@ -37,15 +37,14 @@ class NikoQ {
   }
 
   initIPC() {
-    ipcMain.handle("invoke-test", (event, message) => {
-      // message には 呼び出し元からのデータ ('ping') が入っている
-      console.log(message);
-      // renderer プロセスにデータを返す
-      return "pong";
-    });
-
     ipcMain.on("init-websocket", () => {
       this.initWebsocket();
+    });
+    ipcMain.on("login", (event, username, password) => {
+      // ログイン処理
+    });
+    ipcMain.on("logout", () => {
+      // ログアウト処理
     });
   }
 
@@ -58,9 +57,7 @@ class NikoQ {
     });
     this.websocket.connect();
     this.websocket.on("message", async (data) => {
-      const message = await wsEvent(data);
-      // Renderプロセスへ表示するメッセージを送信する
-      this.mainWindow.window.webContents.send("display-message", message);
+      // websocketからメッセージが届いたときの処理
     });
   }
 
