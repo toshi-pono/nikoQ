@@ -3,7 +3,6 @@ const websocketEvent = require("./websocketEvent");
 
 class AutoReconnectWebSocket {
   constructor(url, protocols) {
-    super();
     this.url = url;
     this.protocols = protocols;
   }
