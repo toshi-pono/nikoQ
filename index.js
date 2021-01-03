@@ -1,6 +1,6 @@
 const { app, ipcMain } = require("electron");
 const NikoQWindow = require("./main/createWindow");
-const AutoReconnectWebSocket = require("./main/websocket");
+const AutoReconnectWebSocket = require("./main/websocket/websocket");
 const setupApiEvent = require("./main/api/apiEvent");
 
 // *** とりあえずテスト用 ***

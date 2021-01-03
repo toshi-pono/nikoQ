@@ -1,4 +1,4 @@
-const apis = require("./api/apis");
+const apis = require("../api/apis");
 
 class WebSocketEvent {
   constructor()
