@@ -38,7 +38,7 @@ class NikoQ {
 
   initIPC() {
     ipcMain.on("init-websocket", () => {
-      this.initWebsocket();
+      this.setupWebsocket();
     });
     ipcMain.on("login", (event, username, password) => {
       // ログイン処理
@@ -48,7 +48,7 @@ class NikoQ {
     });
   }
 
-  initWebsocket() {
+  setupWebsocket() {
     console.log("init-websocket");
     this.websocket = new AutoReconnectWebSocket("wss://q.trap.jp/api/v3/ws", {
       headers: {
