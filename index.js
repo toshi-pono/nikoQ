@@ -61,9 +61,6 @@ class NikoQ {
       },
     });
     this.websocket.connect();
-    this.websocket.on("message", (data) => {
-      // websocketからメッセージが届いたときの処理
-    });
   }
 
   // APIレスポンス後の処理を設定（renderへ送信する）

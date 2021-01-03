@@ -1,7 +1,7 @@
 const WebSocket = require("ws");
-const EventEmitter = require("events").EventEmitter;
+const websocketEvent = require("./websocketEvent");
 
-class AutoReconnectWebSocket extends EventEmitter {
+class AutoReconnectWebSocket {
   constructor(url, protocols) {
     super();
     this.url = url;
@@ -13,12 +13,12 @@ class AutoReconnectWebSocket extends EventEmitter {
       console.log("open");
       this.onTimelineStreaming();
     });
-
-    // this._ws.on("message", (data) => {
-    //   console.log(data);
-    //   this.emit("message", data);
-    // });
+    this._ws.on("message", (data) => {
+      websocketEvent(JSON.parse(data));
+    });
   }
+
+  // すべてのメッセージcreateイベントを受け取る設定を送信
   onTimelineStreaming() {
     console.log("timeline_streaming:on");
     this._ws.send("timeline_streaming:on");
