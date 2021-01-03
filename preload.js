@@ -1,10 +1,8 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("nikoQ", {
-  invokeTest: async () => {
-    const data = await ipcRenderer.invoke("invoke-test", "ping");
-    console.log(data);
-    return data;
+  doneLoad: () => {
+    ipcRenderer.send("done-renderer-load");
   },
   initWebSocket: () => {
     ipcRenderer.send("init-websocket");

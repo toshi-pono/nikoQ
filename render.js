@@ -1,7 +1,7 @@
 window.onload = () => {
-  console.log(window.nikoQ.invokeTest());
   initIPC();
-  window.nikoQ.initWebSocket();
+  //window.nikoQ.initWebSocket();
+  window.nikoQ.doneLoad();
 };
 
 function initIPC() {

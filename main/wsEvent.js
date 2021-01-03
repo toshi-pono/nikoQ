@@ -1,5 +1,7 @@
-const apis = require("./apis");
+const apis = require("./api/apis");
 
-class WebSocketEvent {}
+class WebSocketEvent {
+  constructor()
+}
 
 module.exports = WebSocketEvent;

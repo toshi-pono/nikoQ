@@ -2,11 +2,12 @@ const { net } = require("electron");
 const EventEmitter = require("events").EventEmitter;
 
 // *** とりあえずテスト用 ***
-const Cookie = require("../cookie");
+const Cookie = require("../../cookie");
 // ***********************
 
 class Apis extends EventEmitter {
   constructor(hostname, basepath) {
+    super();
     this.hostname = hostname;
     this.basepath = basepath;
     this.r_session = "";
@@ -36,6 +37,9 @@ class Apis extends EventEmitter {
       });
     });
     request.end();
+  }
+  test() {
+    this.emit("display-message", "hello");
   }
 }
 
