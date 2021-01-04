@@ -4,6 +4,7 @@ const fetch = require("electron-fetch").default;
 const Cookie = require("../../cookie");
 // ***********************
 
+// TODO: Cookieを，Sessionを使った書き方にする
 class Apis {
   constructor(basepath) {
     this.basepath = basepath;
@@ -45,6 +46,17 @@ class Apis {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
+    });
+    console.log(res);
+    return res.status;
+  }
+
+  // ログアウト処理
+  async postLogout() {
+    const res = await fetch(this.basepath + "/logout?all=false", {
+      headers: {
+        Cookie: this.r_session,
+      },
     });
     console.log(res);
     return res.status;
