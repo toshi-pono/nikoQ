@@ -20,8 +20,8 @@ class WebsocketEvent {
         const userRes = await apis.getUser(messageRes.data.userId);
         if (!this.isLogin(userRes.state)) return;
         this._wc.send("display-message", {
-          content: messageRes.content,
-          user: userRes,
+          content: messageRes.data.content,
+          user: userRes.data,
         });
         break;
 
