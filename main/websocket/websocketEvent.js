@@ -6,7 +6,6 @@ class WebsocketEvent {
     // "all" | "none" | "message"
     // all: message_created, message_eddit ,user(on,off)line
     // message: message_created, message_eddit
-    this.streaming = "all";
   }
   async event(message) {
     if (this._wc == null) return;
@@ -38,7 +37,7 @@ class WebsocketEvent {
         break;
       }
       default:
-        this._wc.send("display-message", message);
+        this._wc.send("else-message", message);
         break;
     }
   }

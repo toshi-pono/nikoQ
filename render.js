@@ -3,6 +3,7 @@ window.onload = () => {
   window.nikoQ.doneLoad();
   console.log("ok");
   // test
+  test();
   // window.nikoQ.login(myname, mypassword);
   // window.nikoQ.test();
 };
@@ -23,4 +24,8 @@ function initIPC() {
   window.nikoQ.logoutStatus((status) => {
     console.log("logout", status);
   });
+}
+
+function test() {
+  window.nikoQ.elseMessage();
 }

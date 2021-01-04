@@ -14,7 +14,7 @@ contextBridge.exposeInMainWorld("nikoQ", {
     ipcRenderer.on("user-online", (event, arg) => listener(arg));
   },
   userOffline: (listener) => {
-    ipcRenderer.on("user-ofline", (event, arg) => listener(arg));
+    ipcRenderer.on("user-offline", (event, arg) => listener(arg));
   },
   login: (username, password) => {
     ipcRenderer.send("login", username, password);
@@ -30,5 +30,8 @@ contextBridge.exposeInMainWorld("nikoQ", {
   },
   test: () => {
     ipcRenderer.send("test");
+  },
+  elseMessage: () => {
+    ipcRenderer.on("else-message", (event, message) => console.log(message));
   },
 });
