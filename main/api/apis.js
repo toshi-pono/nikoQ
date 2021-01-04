@@ -38,8 +38,8 @@ class Apis {
   }
 
   // ログイン処理
-  async postLogin(username, password) {
-    const body = { username: username, password: password };
+  async postLogin(name, password) {
+    const body = { name, password };
     const res = await fetch(this.basepath + "/login", {
       method: "Post",
       headers: {
