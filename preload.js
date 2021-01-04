@@ -10,6 +10,12 @@ contextBridge.exposeInMainWorld("nikoQ", {
   displayMessage: (listener) => {
     ipcRenderer.on("display-message", (event, arg) => listener(arg));
   },
+  userOnline: (listener) => {
+    ipcRenderer.on("user-online", (event, arg) => listener(arg));
+  },
+  userOffline: (listener) => {
+    ipcRenderer.on("user-ofline", (event, arg) => listener(arg));
+  },
   login: (username, password) => {
     ipcRenderer.send("login", username, password);
   },
