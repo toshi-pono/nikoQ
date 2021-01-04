@@ -1,11 +1,9 @@
 const { app, ipcMain } = require("electron");
 const NikoQWindow = require("./main/createWindow");
 const AutoReconnectWebSocket = require("./main/websocket/websocket");
-const setupApiEvent = require("./main/api/apiEvent");
 
 // *** とりあえずテスト用 ***
 const Cookie = require("./cookie");
-const apis = require("./main/api/apis");
 // ***********************
 
 class NikoQ {
@@ -48,8 +46,7 @@ class NikoQ {
       // ログアウト処理
     });
     ipcMain.on("done-renderer-load", () => {
-      // this.setupWebsocket();
-      apis.test();
+      this.setupWebsocket();
     });
   }
 
@@ -63,16 +60,9 @@ class NikoQ {
     this.websocket.connect();
   }
 
-  // APIレスポンス後の処理を設定（renderへ送信する）
-  // WARN: 画面が作り直されたとき
-  setupApiEvent() {
-    setupApiEvent(this.wc);
-  }
-
   createNikoQWindow() {
     this.mainWindow = new NikoQWindow();
     this.mainWindow.loadFile(`file://${__dirname}/index.html`);
-    this.setupApiEvent();
   }
 
   get wc() {

@@ -5,9 +5,8 @@ const EventEmitter = require("events").EventEmitter;
 const Cookie = require("../../cookie");
 // ***********************
 
-class Apis extends EventEmitter {
+class Apis {
   constructor(hostname, basepath) {
-    super();
     this.hostname = hostname;
     this.basepath = basepath;
     this.r_session = "";
@@ -15,32 +14,7 @@ class Apis extends EventEmitter {
   setSession(value) {
     this.r_session = "r_session=" + value;
   }
-  getMessage(messageId) {
-    const request = net.request({
-      method: "GET",
-      protocol: "https:",
-      hostname: this.hostname,
-      path: this.basepath + "/messages/" + messageId,
-      headers: {
-        Cookie: this.r_session,
-      },
-    });
-
-    request.on("response", (response) => {
-      console.log(`STATUS: ${response.statusCode}`);
-      console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
-      response.on("data", (chunk) => {
-        console.log(`BODY: ${chunk}`);
-      });
-      response.on("end", () => {
-        console.log("No more data in response.");
-      });
-    });
-    request.end();
-  }
-  test() {
-    this.emit("display-message", "hello");
-  }
+  getMessage(messageId) {}
 }
 
 const apis = new Apis("q.trap.jp", "/api/v3");
