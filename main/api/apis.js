@@ -26,9 +26,21 @@ class Apis {
     return { state, data };
   }
 
-  // ユーザの詳細を取得
+  // ユーザの詳細を取得 note:不要説がある
   async getUserDetail(userId) {
     const res = await fetch(this.basepath + "/users/" + userId, {
+      headers: {
+        Cookie: this.r_session,
+      },
+    });
+    const data = await res.json();
+    const state = res.status;
+    return { state, data };
+  }
+
+  // 自分の詳細情報を取得
+  async getMyDetail() {
+    const res = await fetch(this.basepath + "/users/me", {
       headers: {
         Cookie: this.r_session,
       },
@@ -64,6 +76,7 @@ class Apis {
   }
 
   // ログイン処理
+  // TODO:Cookie
   async postLogin(name, password) {
     const body = { name, password };
     const res = await fetch(this.basepath + "/login", {
