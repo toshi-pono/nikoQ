@@ -1,5 +1,4 @@
 const WebSocket = require("ws");
-const websocketEvent = require("./websocketEvent");
 
 class AutoReconnectWebSocket {
   constructor(url, protocols) {
@@ -11,9 +10,6 @@ class AutoReconnectWebSocket {
     this._ws.on("open", () => {
       console.log("open");
       this.onTimelineStreaming();
-    });
-    this._ws.on("message", (data) => {
-      websocketEvent(JSON.parse(data));
     });
   }
 

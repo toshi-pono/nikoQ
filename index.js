@@ -1,5 +1,6 @@
 const { app, ipcMain } = require("electron");
 const NikoQWindow = require("./main/createWindow");
+const WebsocketEvent = require("./main/websocket/websocketEvent");
 const AutoReconnectWebSocket = require("./main/websocket/websocket");
 
 // *** とりあえずテスト用 ***
@@ -10,6 +11,7 @@ class NikoQ {
   constructor() {
     this.mainWindow = null;
     this.websocket = null;
+    this.websocketEvent = new WebsocketEvent();
   }
 
   init() {
@@ -58,11 +60,16 @@ class NikoQ {
       },
     });
     this.websocket.connect();
+    this.websocket.ws.on("message", async (data) => {
+      console.log("WS: Message Come");
+      this.websocketEvent.event(JSON.parse(data));
+    });
   }
 
   createNikoQWindow() {
     this.mainWindow = new NikoQWindow();
     this.mainWindow.loadFile(`file://${__dirname}/index.html`);
+    this.websocketEvent.setWebContents(this.mainWindow.window.webContents);
   }
 
   get wc() {
