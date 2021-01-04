@@ -22,4 +22,7 @@ contextBridge.exposeInMainWorld("nikoQ", {
   logoutStatus: (listener) => {
     ipcRenderer.on("logout-status", (event, state) => listener(state));
   },
+  test: () => {
+    ipcRenderer.send("test");
+  },
 });

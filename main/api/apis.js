@@ -9,6 +9,7 @@ class Apis {
   constructor(basepath) {
     this.basepath = basepath;
     this.r_session = "";
+    this.userList = null;
   }
   setSession(value) {
     this.r_session = "r_session=" + value;
@@ -26,7 +27,7 @@ class Apis {
   }
 
   // ユーザの詳細を取得
-  async getUser(userId) {
+  async getUserDetail(userId) {
     const res = await fetch(this.basepath + "/users/" + userId, {
       headers: {
         Cookie: this.r_session,
@@ -35,6 +36,31 @@ class Apis {
     const data = await res.json();
     const state = res.status;
     return { state, data };
+  }
+
+  // ユーザー一覧（アクティブユーザーのみ）取得
+  async getUsers() {
+    const res = await fetch(this.basepath + "/users?include-suspended=false", {
+      headers: {
+        Cookie: this.r_session,
+      },
+    });
+    const data = await res.json();
+    const state = res.status;
+    return { state, data };
+  }
+
+  // ユーザー情報を取得
+  async getUser(userId) {
+    // キャッシュ
+    if (this.userList == null) {
+      const { state, data } = await this.getUsers();
+      if (state == 401) return { state: 401, data: null }; // not login
+      this.userList = data;
+    }
+    const res = this.userList.find((v) => v.id == userId);
+    if (!res) return { state: 404, data: null };
+    return { state: 200, data: res };
   }
 
   // ログイン処理

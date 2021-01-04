@@ -14,8 +14,15 @@ class WebsocketEvent {
       case "MESSAGE_CREATED":
         // 新規メッセージ投稿
         // memo: メッセージの中身・チャンネル名・送信者名を取得→整形してイベント名と内容を返す
-        const { state, data } = await apis.getMessage(message.body.id);
-        this._wc.send("display-message", data);
+        // TODO:
+        const messageRes = await apis.getMessage(message.body.id);
+        if (!this.isLogin(messageRes.state)) return;
+        const userRes = await apis.getUser(messageRes.data.userId);
+        if (!this.isLogin(userRes.state)) return;
+        this._wc.send("display-message", {
+          content: messageRes.content,
+          user: userRes,
+        });
         break;
 
       default:
@@ -25,6 +32,13 @@ class WebsocketEvent {
   }
   setWebContents(wc) {
     this._wc = wc;
+  }
+  isLogin(state) {
+    if (state == 401) {
+      this._wc.send("login-status", 401);
+      return false;
+    }
+    return true;
   }
 }
 

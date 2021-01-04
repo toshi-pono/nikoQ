@@ -57,6 +57,12 @@ class NikoQ {
       // 画面読み込み完了
       this.setupWebsocket();
     });
+    // **** test ********
+    ipcMain.on("test", async () => {
+      const res = await apis.getUser("00443589-4489-48c9-baf6-ea2a5c2e4fe3");
+      console.log(res);
+    });
+    // *******************
   }
 
   setupWebsocket() {

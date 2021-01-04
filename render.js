@@ -1,12 +1,10 @@
-import "secret.js";
-import { myname, mypassword } from "./secret";
-
 window.onload = () => {
   initIPC();
-  //window.nikoQ.initWebSocket();
   window.nikoQ.doneLoad();
+  console.log("ok");
   // test
   // window.nikoQ.login(myname, mypassword);
+  // window.nikoQ.test();
 };
 
 function initIPC() {
