@@ -3,9 +3,6 @@ const apis = require("../api/apis");
 class WebsocketEvent {
   constructor() {
     this._wc = null;
-    // "all" | "none" | "message"
-    // all: message_created, message_eddit ,user(on,off)line
-    // message: message_created, message_eddit
   }
   async event(message) {
     if (this._wc == null) return;
