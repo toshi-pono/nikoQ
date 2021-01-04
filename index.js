@@ -2,6 +2,7 @@ const { app, ipcMain } = require("electron");
 const NikoQWindow = require("./main/createWindow");
 const WebsocketEvent = require("./main/websocket/websocketEvent");
 const AutoReconnectWebSocket = require("./main/websocket/websocket");
+const apis = require("./main/api/apis");
 
 // *** とりあえずテスト用 ***
 const Cookie = require("./cookie");
@@ -41,8 +42,10 @@ class NikoQ {
     ipcMain.on("init-websocket", () => {
       this.setupWebsocket();
     });
-    ipcMain.on("login", (event, username, password) => {
+    ipcMain.on("login", async (event, username, password) => {
       // ログイン処理
+      const status = await apis.postLogin(username, password);
+      this.wc.send("login-status", status);
     });
     ipcMain.on("logout", () => {
       // ログアウト処理
