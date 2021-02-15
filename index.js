@@ -59,9 +59,10 @@ class NikoQ {
     ipcMain.on("done-renderer-load", () => {
       this.setupWebsocket();
     });
+
     // **** test ********
     ipcMain.on("test", async () => {
-      const res = await apis.getUser("00443589-4489-48c9-baf6-ea2a5c2e4fe3");
+      const res = await apis.getMessage("02345017-f51e-413e-a896-f182c92bfe47");
       console.log(res);
     });
     // *******************
@@ -84,7 +85,7 @@ class NikoQ {
   createNikoQWindow() {
     this.mainWindow = new NikoQWindow();
     this.mainWindow.loadFile(`file://${__dirname}/index.html`);
-    this.websocketEvent.setWebContents(this.mainWindow.window.webContents);
+    this.websocketEvent.setWebContents(this.wc);
   }
 
   get wc() {
