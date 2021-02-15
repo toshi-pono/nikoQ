@@ -1,10 +1,10 @@
 window.onload = () => {
   initIPC();
+  // レンダー側の準備完了をメインプロセスに伝える
   window.nikoQ.doneLoad();
   console.log("ok");
   // test
   test();
-  // window.nikoQ.login(myname, mypassword);
   // window.nikoQ.test();
 };
 

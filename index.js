@@ -39,22 +39,24 @@ class NikoQ {
   }
 
   initIPC() {
+    // 今は使ってない
     ipcMain.on("init-websocket", () => {
-      // 今は使ってない
       this.setupWebsocket();
     });
+    // ログイン処理
     ipcMain.on("login", async (event, username, password) => {
-      // ログイン処理
       const status = await apis.postLogin(username, password);
       this.wc.send("login-status", status);
+      // ログイン成功だったらsetupへ **QUIC FIX** 200 → 204
+      if (status == 200) this.setupUser();
     });
+    // ログアウト処理
     ipcMain.on("logout", async () => {
-      // ログアウト処理
       const status = await apis.postLogout();
       this.wc.send("logout-status", status);
     });
+    // 画面読み込み完了
     ipcMain.on("done-renderer-load", () => {
-      // 画面読み込み完了
       this.setupWebsocket();
     });
     // **** test ********

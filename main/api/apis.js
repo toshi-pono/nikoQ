@@ -62,7 +62,7 @@ class Apis {
     return { state, data };
   }
 
-  // ユーザー情報を取得
+  // ユーザー情報を取得(詳細でない)
   async getUser(userId) {
     // キャッシュ
     if (this.userList == null) {

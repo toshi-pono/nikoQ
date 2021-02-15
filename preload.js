@@ -4,9 +4,11 @@ contextBridge.exposeInMainWorld("nikoQ", {
   doneLoad: () => {
     ipcRenderer.send("done-renderer-load");
   },
+  /* 使ってない */
   initWebSocket: () => {
     ipcRenderer.send("init-websocket");
   },
+  /************/
   displayMessage: (listener) => {
     ipcRenderer.on("display-message", (event, arg) => listener(arg));
   },
