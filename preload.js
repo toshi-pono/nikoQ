@@ -34,6 +34,8 @@ contextBridge.exposeInMainWorld("nikoQ", {
     ipcRenderer.send("test");
   },
   elseMessage: () => {
-    ipcRenderer.on("else-message", (event, message) => console.log(message));
+    ipcRenderer.on("else-message", (event, message) =>
+      console.log("else", message)
+    );
   },
 });
