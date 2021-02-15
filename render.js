@@ -10,13 +10,13 @@ window.onload = () => {
 
 function initIPC() {
   window.nikoQ.displayMessage((message) => {
-    console.log(message);
+    console.log("displayMessage", message);
   });
   window.nikoQ.userOnline((message) => {
-    console.log(message);
+    console.log("userOnline", message);
   });
   window.nikoQ.userOffline((message) => {
-    console.log(message);
+    console.log("userOffline", message);
   });
   window.nikoQ.loginStatus((status) => {
     console.log("login", status);
