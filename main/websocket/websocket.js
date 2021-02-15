@@ -11,6 +11,10 @@ class AutoReconnectWebSocket {
       console.log("open");
       this.onTimelineStreaming();
     });
+    this._ws.on("error", (e) => {
+      console.log(e);
+      console.log(e.message);
+    });
   }
 
   // すべてのメッセージcreateイベントを受け取る設定を送信
