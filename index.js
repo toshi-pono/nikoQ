@@ -47,17 +47,19 @@ class NikoQ {
     ipcMain.on("login", async (event, username, password) => {
       const status = await apis.postLogin(username, password);
       this.wc.send("login-status", status);
-      // ログイン成功だったらsetupへ **QUIC FIX** 200 → 204
-      if (status == 200) this.setupUser();
+      // ログイン成功だったらsetupへ
+      console.log("login:", status);
+      if (status == 204) this.setupUser();
     });
     // ログアウト処理
     ipcMain.on("logout", async () => {
       const status = await apis.postLogout();
       this.wc.send("logout-status", status);
+      console.log("logout:", status);
     });
     // 画面読み込み完了
     ipcMain.on("done-renderer-load", () => {
-      this.setupWebsocket();
+      this.setupUser();
     });
 
     // **** test ********
@@ -68,11 +70,25 @@ class NikoQ {
     // *******************
   }
 
+  async setupUser() {
+    // ログイン情報，ユーザー詳細取得
+    const res = await apis.getMyDetail();
+    if (res.state == 401) {
+      // 再ログインを要求
+      this.wc.send("login-status", 401);
+      console.log("@setupUser:", "NotLogin");
+    } else if (res.state == 200) {
+      this.setupWebsocket();
+    } else {
+      // TODO: たぶんなんらかのエラー
+    }
+  }
+
   setupWebsocket() {
     console.log("init-websocket");
     this.websocket = new AutoReconnectWebSocket("wss://q.trap.jp/api/v3/ws", {
       headers: {
-        Cookie: "r_session=" + Cookie,
+        Cookie: apis.cookie,
       },
     });
     this.websocket.connect();

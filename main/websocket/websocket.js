@@ -13,7 +13,7 @@ class AutoReconnectWebSocket {
     });
     this._ws.on("error", (e) => {
       console.log(e);
-      console.log(e.message);
+      // console.log(e.message);
     });
   }
 

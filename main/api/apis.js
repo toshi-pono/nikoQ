@@ -1,24 +1,24 @@
 const fetch = require("electron-fetch").default;
 
 // *** とりあえずテスト用 ***
-const Cookie = require("../../cookie");
+// const Cookie = require("../../cookie");
 // ***********************
 
 // TODO: Cookieを，Sessionを使った書き方にする
 class Apis {
   constructor(basepath) {
     this.basepath = basepath;
-    this.r_session = "";
+    this.cookie = "";
     this.userList = null;
   }
   setSession(value) {
-    this.r_session = "r_session=" + value;
+    this.cookie = value;
   }
   // メッセージの中身を取得
   async getMessage(messageId) {
     const res = await fetch(this.basepath + "/messages/" + messageId, {
       headers: {
-        Cookie: this.r_session,
+        Cookie: this.cookie,
       },
     });
     const data = await res.json();
@@ -30,7 +30,7 @@ class Apis {
   async getUserDetail(userId) {
     const res = await fetch(this.basepath + "/users/" + userId, {
       headers: {
-        Cookie: this.r_session,
+        Cookie: this.cookie,
       },
     });
     const data = await res.json();
@@ -42,7 +42,7 @@ class Apis {
   async getMyDetail() {
     const res = await fetch(this.basepath + "/users/me", {
       headers: {
-        Cookie: this.r_session,
+        Cookie: this.cookie,
       },
     });
     const data = await res.json();
@@ -54,7 +54,7 @@ class Apis {
   async getUsers() {
     const res = await fetch(this.basepath + "/users?include-suspended=false", {
       headers: {
-        Cookie: this.r_session,
+        Cookie: this.cookie,
       },
     });
     const data = await res.json();
@@ -86,18 +86,18 @@ class Apis {
       },
       body: JSON.stringify(body),
     });
-    console.log(res);
+    this.setSession(res.headers.get("set-cookie"));
     return res.status;
   }
 
   // ログアウト処理
   async postLogout() {
     const res = await fetch(this.basepath + "/logout?all=false", {
+      method: "Post",
       headers: {
-        Cookie: this.r_session,
+        Cookie: this.cookie,
       },
     });
-    console.log(res);
     return res.status;
   }
 }
@@ -105,6 +105,6 @@ class Apis {
 const apis = new Apis("https://q.trap.jp/api/v3");
 
 // とりあえず
-apis.setSession(Cookie);
+// apis.setSession(Cookie);
 
 module.exports = apis;
