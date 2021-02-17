@@ -9,6 +9,7 @@ let settings = {
     icon: true,
     displayName: true,
     id: true,
+    channel: true,
   },
 };
 window.onload = () => {
@@ -46,30 +47,80 @@ function initIPC() {
 // メッセージを表示して動かす
 function messageView(message) {
   let container = document.createElement("div");
-
-  // 画面上に表示されるテキストを設定
-  let text =
-    message.user.displayName +
-    " @" +
-    message.user.name +
-    "\n" +
-    message.content;
-  container.appendChild(document.createTextNode(text));
+  container.appendChild(createMessageHeader(message.user));
+  container.appendChild(createMessage(message.content));
   moveMessage(container);
 }
 
 function onlineView(message) {
-  let container = document.createElement("div");
-  let text = "オンライン:" + message.displayName + " @" + message.name;
-  container.appendChild(document.createTextNode(text));
-  moveMessage(container);
+  moveMessage(createUserStatus(message, "IN"));
 }
 
 function offlineView(message) {
-  let container = document.createElement("div");
-  let text = "オフライン:" + message.displayName + " @" + message.name;
-  container.appendChild(document.createTextNode(text));
-  moveMessage(container);
+  moveMessage(createUserStatus(message, "OUT"));
+}
+
+// メッセージに必要な要素たち
+// header
+function createMessageHeader(user) {
+  let div = document.createElement("div");
+  div.classList.add("messageHeader");
+  if (settings.messageView.icon) div.appendChild(createUserIcon(user.name));
+  if (settings.messageView.displayName)
+    div.appendChild(createDisplayName(user.displayName));
+  if (settings.messageView.id) div.appendChild(createName(user.name));
+  return div;
+}
+// icon画像
+function createUserIcon(name) {
+  let img = document.createElement("img");
+  img.setAttribute("src", "https://q.trap.jp/api/v3/public/icon/" + name);
+  img.classList.add("userIcon");
+  return img;
+}
+// displayName
+function createDisplayName(name) {
+  let p = document.createElement("p");
+  const text = document.createTextNode(name);
+  p.appendChild(text);
+  p.classList.add("displayName");
+  return p;
+}
+// name
+function createName(name) {
+  let p = document.createElement("p");
+  const text = document.createTextNode("@" + name);
+  p.appendChild(text);
+  p.classList.add("name");
+  return p;
+}
+// message
+function createMessage(content) {
+  let p = document.createElement("p");
+  const text = document.createTextNode(content);
+  p.appendChild(text);
+  p.classList.add("message");
+  return p;
+}
+// userStatus
+function createUserStatus(user, text) {
+  let div = document.createElement("div");
+  div.classList.add("userStatusContainer");
+
+  // ステータスメッセージの作成
+  let status = document.createElement("p");
+  status.classList.add("userStatusMessage");
+  const statusText = document.createTextNode(text + ":");
+  status.appendChild(statusText);
+  div.appendChild(status);
+
+  // 名前部分の作成
+  if (settings.messageView.icon) div.appendChild(createUserIcon(user.name));
+  if (settings.messageView.displayName)
+    div.appendChild(createDisplayName(user.displayName));
+  if (settings.messageView.id) div.appendChild(createName(user.name));
+
+  return div;
 }
 
 // メッセージのアニメーションを実行する
