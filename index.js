@@ -4,10 +4,6 @@ const WebsocketEvent = require("./main/websocket/websocketEvent");
 const AutoReconnectWebSocket = require("./main/websocket/websocket");
 const apis = require("./main/api/apis");
 
-// *** とりあえずテスト用 ***
-const Cookie = require("./cookie");
-// ***********************
-
 class NikoQ {
   constructor() {
     this.mainWindow = null;
@@ -63,6 +59,7 @@ class NikoQ {
     });
 
     // **** test ********
+    // render側から送信した"test" に対して反応する．
     ipcMain.on("test", async () => {
       const res = await apis.getMessage("02345017-f51e-413e-a896-f182c92bfe47");
       console.log(res);

@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { BrowserWindow } = require("electron");
 const path = require("path");
 
 class NikoQWindow {
@@ -21,9 +21,9 @@ class NikoQWindow {
         worldSafeExecuteJavaScript: true,
         // XSS対策としてnodeモジュールをレンダラープロセスで使えなくする
         nodeIntegration: false,
-        // レンダラープロセスに公開するAPIのファイル
         //（Electron 11 から、デフォルト：falseが非推奨となった）
         contextIsolation: true,
+        // レンダラープロセスに公開するAPIのファイル
         preload: path.resolve("./preload.js"),
       },
     });
