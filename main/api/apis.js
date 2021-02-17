@@ -105,6 +105,6 @@ class Apis {
 const apis = new Apis("https://q.trap.jp/api/v3");
 
 // とりあえず
-apis.setSession(Cookie);
+apis.setSession(Cookie.co);
 
 module.exports = apis;

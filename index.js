@@ -1,8 +1,12 @@
-const { app, ipcMain } = require("electron");
+const { app, ipcMain, session } = require("electron");
 const NikoQWindow = require("./main/createWindow");
 const WebsocketEvent = require("./main/websocket/websocketEvent");
 const AutoReconnectWebSocket = require("./main/websocket/websocket");
 const apis = require("./main/api/apis");
+
+// *** とりあえずテスト用 ***
+const Cookie = require("./cookie");
+// ***********************
 
 class NikoQ {
   constructor() {
@@ -55,6 +59,21 @@ class NikoQ {
     });
     // 画面読み込み完了
     ipcMain.on("done-renderer-load", () => {
+      // TODO: cookieの載せ方を改良する
+      const setCookie = {
+        url: "https://q.trap.jp/",
+        name: "r_session",
+        value: Cookie.coo,
+      };
+      session.defaultSession.cookies.set(setCookie).then(
+        () => {
+          // success
+          console.log("set-cookie");
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
       this.setupUser();
     });
 
@@ -83,6 +102,8 @@ class NikoQ {
 
   setupWebsocket() {
     console.log("init-websocket");
+    // websocketの通信時，electronのcookieは送信されてないので，自分で設定して送信する
+    // HACK: sessionのイベントで通信前にheaderをいじれたかも？
     this.websocket = new AutoReconnectWebSocket("wss://q.trap.jp/api/v3/ws", {
       headers: {
         Cookie: apis.cookie,

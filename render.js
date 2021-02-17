@@ -25,8 +25,13 @@ window.onload = () => {
       let msg = {
         content: "おいす〜〜って言ってみた",
         user: {
-          name: "toshi00",
+          bot: false,
           displayName: "とし",
+          iconFileId: "4dfbf211-f4e5-4c4d-9ae4-bbc4bc1a0b03",
+          id: "060db77b-1d04-4686-a5ec-15c960159646",
+          name: "toshi00",
+          state: 1,
+          updatedAt: "2020-05-03T15:21:58.152941Z",
         },
       };
       messageView(msg);
@@ -78,16 +83,17 @@ function offlineView(message) {
 function createMessageHeader(user) {
   let div = document.createElement("div");
   div.classList.add("messageHeader");
-  if (settings.messageView.icon) div.appendChild(createUserIcon(user.name));
+  if (settings.messageView.icon)
+    div.appendChild(createUserIcon(user.iconFileId));
   if (settings.messageView.displayName)
     div.appendChild(createDisplayName(user.displayName));
   if (settings.messageView.id) div.appendChild(createName(user.name));
   return div;
 }
 // icon画像
-function createUserIcon(name) {
+function createUserIcon(iconFileId) {
   let img = document.createElement("img");
-  img.setAttribute("src", "https://q.trap.jp/api/v3/public/icon/" + name);
+  img.setAttribute("src", "https://q.trap.jp/api/v3/files/" + iconFileId);
   img.classList.add("userIcon");
   return img;
 }
@@ -128,7 +134,8 @@ function createUserStatus(user, text) {
   div.appendChild(status);
 
   // 名前部分の作成
-  if (settings.messageView.icon) div.appendChild(createUserIcon(user.name));
+  if (settings.messageView.icon)
+    div.appendChild(createUserIcon(user.iconFileId));
   if (settings.messageView.displayName)
     div.appendChild(createDisplayName(user.displayName));
   if (settings.messageView.id) div.appendChild(createName(user.name));
