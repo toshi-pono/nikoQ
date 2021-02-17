@@ -94,8 +94,8 @@ async function moveMessage(viewDOM) {
   //        横方向の移動距離は「画面の横幅＋画面を流れるテキストの要素の横幅」
   await gsap.to("#" + viewDOM.id, {
     duration: 20,
-    x: -1 * (document.documentElement.clientWidth + div_text.clientWidth),
+    x: -1 * (document.documentElement.clientWidth + viewDOM.clientWidth),
   });
   // 画面上の移動終了後に削除
-  div_text.parentNode.removeChild(viewDOM);
+  viewDOM.parentNode.removeChild(viewDOM);
 }
