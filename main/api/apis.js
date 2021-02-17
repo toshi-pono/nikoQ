@@ -1,7 +1,7 @@
 const fetch = require("electron-fetch").default;
 
 // *** とりあえずテスト用 ***
-// const Cookie = require("../../cookie");
+const Cookie = require("../../cookie");
 // ***********************
 
 // TODO: Cookieを，Sessionを使った書き方にする
@@ -76,7 +76,7 @@ class Apis {
   }
 
   // ログイン処理
-  // TODO:Cookie
+  // TODO:electron sessionを使ったCookie処理？，Cookieの保存
   async postLogin(name, password) {
     const body = { name, password };
     const res = await fetch(this.basepath + "/login", {
@@ -105,6 +105,6 @@ class Apis {
 const apis = new Apis("https://q.trap.jp/api/v3");
 
 // とりあえず
-// apis.setSession(Cookie);
+apis.setSession(Cookie);
 
 module.exports = apis;

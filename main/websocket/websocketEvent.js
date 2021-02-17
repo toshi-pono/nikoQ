@@ -10,7 +10,7 @@ class WebsocketEvent {
       case "MESSAGE_CREATED": {
         // 新規メッセージ投稿
         // memo: メッセージの中身・チャンネル名・送信者名を取得→整形してイベント名と内容を返す
-        // TODO:
+        // TODO: チャンネル名？
         const messageRes = await apis.getMessage(message.body.id);
         if (!this.isLogin(messageRes.state)) return;
         const userRes = await apis.getUser(messageRes.data.userId);
@@ -34,6 +34,7 @@ class WebsocketEvent {
         break;
       }
       default:
+        // とりあえず
         this._wc.send("else-message", message);
         break;
     }
