@@ -19,7 +19,20 @@ window.onload = () => {
 
   // メッセージを流すtest
   const button01 = document.getElementById("button01");
-  button01.addEventListener("click", () => {}, false);
+  button01.addEventListener(
+    "click",
+    () => {
+      let msg = {
+        content: "おいす〜〜って言ってみた",
+        user: {
+          name: "toshi00",
+          displayName: "とし",
+        },
+      };
+      messageView(msg);
+    },
+    false
+  );
 };
 
 function initIPC() {
@@ -134,12 +147,12 @@ async function moveMessage(viewDOM) {
   // 初期状態の縦方向の位置は画面の上端から下端の間に設定（ランダムな配置に）
   // todo: メッセージの縦を考慮してが画面外にめり込まないようにする
   // memo: 表示モードがいろいろあれば面白そう
+  document.body.appendChild(viewDOM);
   var random = Math.round(
-    Math.random() * document.documentElement.clientHeight
+    Math.random() *
+      (document.documentElement.clientHeight - viewDOM.clientHeight)
   );
   viewDOM.style.top = random + "px";
-
-  document.body.appendChild(viewDOM);
 
   // ライブラリを用いたテキスト移動のアニメーション： durationはアニメーションの時間、
   //        横方向の移動距離は「画面の横幅＋画面を流れるテキストの要素の横幅」
