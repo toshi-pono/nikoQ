@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "electron-fetch": "^1.7.2",
-    "gsap": "^3.6.0",
     "ws": "^7.4.2"
   }
 }
