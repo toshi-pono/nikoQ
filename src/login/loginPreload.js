@@ -8,6 +8,6 @@ contextBridge.exposeInMainWorld("nikoQ", {
     ipcRenderer.on("login-status", (event, state) => listener(state));
   },
   changeStatus: (status) => {
-    ipcRenderer.on("change-LoginStatus", status);
+    ipcRenderer.send("change-LoginStatus", status);
   },
 });
