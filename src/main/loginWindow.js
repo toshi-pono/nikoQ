@@ -11,9 +11,8 @@ class LoginWindow {
   createWindow() {
     this.window = new BrowserWindow({
       title: "nikoQ-login",
-      hasShadow: false,
-      width: 400,
-      height: 300,
+      width: 420,
+      height: 383,
 
       webPreferences: {
         worldSafeExecuteJavaScript: true,
