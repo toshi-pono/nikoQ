@@ -19,12 +19,11 @@ class LoginWindow {
         worldSafeExecuteJavaScript: true,
         nodeIntegration: false,
         contextIsolation: true,
-        // preload: path.resolve(__dirname, "../login/loginPreload.js"),
+        preload: path.resolve(__dirname, "../login/loginPreload.js"),
       },
     });
     // デベロッパーツール自動起動
     this.window.webContents.openDevTools();
-    this.window.loadURL(path.resolve(__dirname, "../login/index.html"));
   }
   hide() {
     this.window.hide();
@@ -34,6 +33,9 @@ class LoginWindow {
     this.window.show();
     this.window.focus();
     this.isShown = true;
+  }
+  loadFile(url) {
+    this.window.loadURL(url);
   }
   setWindowEvent() {
     this.window.on("close", (e) => {

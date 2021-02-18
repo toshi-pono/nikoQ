@@ -5,10 +5,6 @@ const WebsocketEvent = require("./main/websocket/websocketEvent");
 const AutoReconnectWebSocket = require("./main/websocket/websocket");
 const apis = require("./main/api/apis");
 
-// *** とりあえずテスト用 ***
-const Cookie = require("./cookie");
-// ***********************
-
 class NikoQ {
   constructor() {
     this.mainWindow = null;
@@ -75,22 +71,7 @@ class NikoQ {
     });
     // 画面読み込み完了
     ipcMain.on("done-renderer-load", () => {
-      // TODO: cookieの載せ方を改良する
-      const setCookie = {
-        url: "https://q.trap.jp/",
-        name: "r_session",
-        value: Cookie.coo,
-        secure: true,
-      };
-      session.defaultSession.cookies.set(setCookie).then(
-        () => {
-          // success
-          console.log("set-cookie");
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
+      // TODO: 保存しておいたcookieの読み込み
       this.setupUser();
     });
     ipcMain.on("change-LoginStatus", (event, status) => {
@@ -152,6 +133,7 @@ class NikoQ {
     this.mainWindow = new NikoQWindow();
     this.mainWindow.loadFile(`file://${__dirname}/message/index.html`);
     this.loginWindow = new LoginWindow();
+    this.loginWindow.loadFile(`file://${__dirname}/login/index.html`);
     this.websocketEvent.setMainWc(this.wc);
     this.websocketEvent.setLoginWc(this.loginWc);
   }

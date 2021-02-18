@@ -1,10 +1,8 @@
 const fetch = require("electron-fetch").default;
+const { session } = require("electron");
+const setCookie = require("set-cookie-parser");
 
-// *** とりあえずテスト用 ***
-const Cookie = require("../../cookie");
-// ***********************
-
-// TODO: Cookieを，Sessionを使った書き方にする
+// TODO: Cookieを，Sessionを使った書き方にする　← なぜかできなかった
 class Apis {
   constructor(basepath) {
     this.basepath = basepath;
@@ -76,7 +74,7 @@ class Apis {
   }
 
   // ログイン処理
-  // TODO:electron sessionを使ったCookie処理？，Cookieの保存
+  // TODO:Cookieの保存
   async postLogin(name, password) {
     const body = { name, password };
     const res = await fetch(this.basepath + "/login", {
@@ -86,6 +84,24 @@ class Apis {
       },
       body: JSON.stringify(body),
     });
+    const splitCookieHeaders = setCookie.splitCookiesString(
+      res.headers.get("Set-Cookie")
+    );
+    const cookies = setCookie.parse(splitCookieHeaders);
+    for (let i = 0; i < cookies.length; i++) {
+      const setCookie = {
+        url: "https://q.trap.jp/",
+        name: cookies[i].name,
+        value: cookies[i].value,
+        secure: true,
+      };
+      session.defaultSession.cookies.set(setCookie).then(
+        () => {},
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
     this.setSession(res.headers.get("set-cookie"));
     return res.status;
   }
@@ -103,8 +119,5 @@ class Apis {
 }
 
 const apis = new Apis("https://q.trap.jp/api/v3");
-
-// とりあえず
-apis.setSession(Cookie.co);
 
 module.exports = apis;

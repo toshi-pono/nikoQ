@@ -7,4 +7,7 @@ contextBridge.exposeInMainWorld("nikoQ", {
   loginStatus: (listener) => {
     ipcRenderer.on("login-status", (event, state) => listener(state));
   },
-}
+  changeStatus: (status) => {
+    ipcRenderer.on("change-LoginStatus", status);
+  },
+});
