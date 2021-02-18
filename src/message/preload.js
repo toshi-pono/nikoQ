@@ -18,12 +18,6 @@ contextBridge.exposeInMainWorld("nikoQ", {
   userOffline: (listener) => {
     ipcRenderer.on("user-offline", (event, arg) => listener(arg));
   },
-  login: (username, password) => {
-    ipcRenderer.send("login", username, password);
-  },
-  loginStatus: (listener) => {
-    ipcRenderer.on("login-status", (event, state) => listener(state));
-  },
   logout: () => {
     ipcRenderer.send("logout");
   },

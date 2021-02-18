@@ -3,6 +3,7 @@ const apis = require("../api/apis");
 class WebsocketEvent {
   constructor() {
     this._wc = null;
+    this._loginWc = null;
   }
   async event(message) {
     if (this._wc == null) return;
@@ -39,12 +40,15 @@ class WebsocketEvent {
         break;
     }
   }
-  setWebContents(wc) {
+  setMainWc(wc) {
     this._wc = wc;
+  }
+  setLoginWc(wc) {
+    this._loginWc = wc;
   }
   isLogin(state) {
     if (state == 401) {
-      this._wc.send("login-status", 401);
+      this._loginWc.send("login-status", 401);
       return false;
     }
     return true;

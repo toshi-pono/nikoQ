@@ -1,5 +1,6 @@
 const { app, ipcMain, session } = require("electron");
 const NikoQWindow = require("./main/createWindow");
+const LoginWindow = require("./main/loginWindow");
 const WebsocketEvent = require("./main/websocket/websocketEvent");
 const AutoReconnectWebSocket = require("./main/websocket/websocket");
 const apis = require("./main/api/apis");
@@ -11,8 +12,10 @@ const Cookie = require("./cookie");
 class NikoQ {
   constructor() {
     this.mainWindow = null;
+    this.loginWindow = null;
     this.websocket = null;
     this.websocketEvent = new WebsocketEvent();
+    this.isLogin = false;
   }
 
   init() {
@@ -23,12 +26,24 @@ class NikoQ {
   initApp() {
     app.on("ready", () => {
       this.createNikoQWindow();
+      this.mainWindow.hide();
+      this.loginWindow.show();
     });
     app.on("activate", () => {
-      if (this.mainWindow == null) {
-        this.createNikoQWindow();
-      } else {
+      if (this.isLogin) {
+        // ログイン済みの場合，設定と本体画面を表示
+        if (this.mainWindow == null) {
+          this.createNikoQWindow();
+        }
+        this.loginWindow.hide();
         this.mainWindow.show();
+      } else {
+        // ログインしていない場合，ログイン画面を表示
+        if (this.loginWindow == null) {
+          this.createNikoQWindow();
+        }
+        this.loginWindow.show();
+        this.mainWindow.hide();
       }
     });
     app.on("window-all-closed", () => {
@@ -46,7 +61,7 @@ class NikoQ {
     // ログイン処理
     ipcMain.on("login", async (event, username, password) => {
       const status = await apis.postLogin(username, password);
-      this.wc.send("login-status", status);
+      this.loginWc.send("login-status", status);
       // ログイン成功だったらsetupへ
       console.log("login:", status);
       if (status == 204) this.setupUser();
@@ -56,6 +71,7 @@ class NikoQ {
       const status = await apis.postLogout();
       this.wc.send("logout-status", status);
       console.log("logout:", status);
+      this.isLogin = false;
     });
     // 画面読み込み完了
     ipcMain.on("done-renderer-load", () => {
@@ -92,10 +108,15 @@ class NikoQ {
     const res = await apis.getMyDetail();
     if (res.state == 401) {
       // 再ログインを要求
-      this.wc.send("login-status", 401);
+      this.isLogin = false;
+      this.loginWc.send("login-status", 401);
       console.log("@setupUser:", "NotLogin");
     } else if (res.state == 200) {
+      this.isLogin = true;
       this.setupWebsocket();
+      // メイン画面切り替え
+      this.loginWindow.hide();
+      this.mainWindow.show();
     } else {
       // TODO: たぶんなんらかのエラー
     }
@@ -120,11 +141,16 @@ class NikoQ {
   createNikoQWindow() {
     this.mainWindow = new NikoQWindow();
     this.mainWindow.loadFile(`file://${__dirname}/message/index.html`);
-    this.websocketEvent.setWebContents(this.wc);
+    this.loginWindow = new LoginWindow();
+    this.websocketEvent.setMainWc(this.wc);
+    this.websocketEvent.setLoginWc(this.loginWc);
   }
 
   get wc() {
     return this.mainWindow.window.webContents;
+  }
+  get loginWc() {
+    return this.loginWindow.window.webContents;
   }
 }
 

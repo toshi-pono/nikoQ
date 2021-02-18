@@ -53,9 +53,6 @@ function initIPC() {
     console.log("userOffline", message);
     if (settings.displayMessage.userOffline) offlineView(message);
   });
-  window.nikoQ.loginStatus((status) => {
-    console.log("login", status);
-  });
   window.nikoQ.logoutStatus((status) => {
     console.log("logout", status);
   });
@@ -152,7 +149,6 @@ async function moveMessage(viewDOM) {
   viewDOM.style.left = document.documentElement.clientWidth + "px";
 
   // 初期状態の縦方向の位置は画面の上端から下端の間に設定（ランダムな配置に）
-  // todo: メッセージの縦を考慮してが画面外にめり込まないようにする
   // memo: 表示モードがいろいろあれば面白そう
   document.body.appendChild(viewDOM);
   var random = Math.round(
