@@ -50,6 +50,7 @@ class NikoQWindow {
     this.isShown = true;
   }
   setWindowEvent() {
+    // BUG:ここを消すか，windowがないときにWebsocketEventのメッセージを送らない処理をする必要がある
     this.window.on("close", (e) => {
       if (this.window.isVisible()) {
         e.preventDefault();
