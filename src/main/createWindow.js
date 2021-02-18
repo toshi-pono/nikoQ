@@ -33,7 +33,7 @@ class NikoQWindow {
     // ウィンドウ最大化
     // this.window.setSimpleFullScreen(true);
     // this.window.setIgnoreMouseEvents(true);
-    // デベロッパーツール自動起動
+    // デベロッパーツール
     this.window.webContents.openDevTools();
   }
   loadFile(url) {

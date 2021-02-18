@@ -21,8 +21,8 @@ class LoginWindow {
         preload: path.resolve(__dirname, "../login/loginPreload.js"),
       },
     });
-    // デベロッパーツール自動起動
-    this.window.webContents.openDevTools();
+    // デベロッパーツール
+    // this.window.webContents.openDevTools();
   }
   hide() {
     this.window.hide();

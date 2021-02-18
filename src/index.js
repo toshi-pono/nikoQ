@@ -1,4 +1,4 @@
-const { app, ipcMain, session } = require("electron");
+const { app, ipcMain } = require("electron");
 const NikoQWindow = require("./main/createWindow");
 const LoginWindow = require("./main/loginWindow");
 const WebsocketEvent = require("./main/websocket/websocketEvent");
