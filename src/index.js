@@ -93,6 +93,16 @@ class NikoQ {
       );
       this.setupUser();
     });
+    ipcMain.on("change-LoginStatus", (event, status) => {
+      this.isLogin = status;
+      if (this.isLogin) {
+        this.mainWindow.show();
+        this.loginWindow.hide();
+      } else {
+        this.mainWindow.hide();
+        this.loginWindow.show();
+      }
+    });
 
     // **** test ********
     // render側から送信した"test" に対して反応する．
