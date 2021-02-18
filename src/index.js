@@ -64,6 +64,8 @@ class NikoQ {
         url: "https://q.trap.jp/",
         name: "r_session",
         value: Cookie.coo,
+        sameSite: "strict",
+        secure: true,
       };
       session.defaultSession.cookies.set(setCookie).then(
         () => {
@@ -118,7 +120,7 @@ class NikoQ {
 
   createNikoQWindow() {
     this.mainWindow = new NikoQWindow();
-    this.mainWindow.loadFile(`file://${__dirname}/index.html`);
+    this.mainWindow.loadFile(`file://${__dirname}/message/index.html`);
     this.websocketEvent.setWebContents(this.wc);
   }
 

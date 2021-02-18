@@ -26,6 +26,9 @@ class AutoReconnectWebSocket {
   connect() {
     this._setupWs();
   }
+  close() {
+    this._ws.close();
+  }
   get ws() {
     return this._ws;
   }

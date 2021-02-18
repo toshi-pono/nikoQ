@@ -11,10 +11,13 @@ class NikoQWindow {
   createWindow() {
     this.window = new BrowserWindow({
       title: "nikoQ",
+      hasShadow: false,
       width: 800,
       height: 800,
       autoHideMenuBar: true,
-      //fullscreen: true
+      // frame: false,
+      // transparent: true,
+      alwaysOnTop: true,
 
       webPreferences: {
         // In Electron 12, the default will be changed to true.
@@ -24,11 +27,12 @@ class NikoQWindow {
         //（Electron 11 から、デフォルト：falseが非推奨となった）
         contextIsolation: true,
         // レンダラープロセスに公開するAPIのファイル
-        preload: path.resolve("./preload.js"),
+        preload: path.resolve(__dirname, "../message/preload.js"),
       },
     });
     // ウィンドウ最大化
-    // this.window.setSimpleFullScreen(true)
+    // this.window.setSimpleFullScreen(true);
+    // this.window.setIgnoreMouseEvents(true);
     // デベロッパーツール自動起動
     this.window.webContents.openDevTools();
   }
