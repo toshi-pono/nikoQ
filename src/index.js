@@ -64,7 +64,6 @@ class NikoQ {
         url: "https://q.trap.jp/",
         name: "r_session",
         value: Cookie.coo,
-        sameSite: "strict",
         secure: true,
       };
       session.defaultSession.cookies.set(setCookie).then(

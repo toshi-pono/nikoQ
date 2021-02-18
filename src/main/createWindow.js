@@ -57,6 +57,9 @@ class NikoQWindow {
         this.hide();
       }
     });
+    this.window.webContents.on("will-navigate", (e, url) => {
+      e.preventDefault();
+    });
   }
 }
 
