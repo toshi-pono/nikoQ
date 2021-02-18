@@ -1,6 +1,7 @@
 const { app, ipcMain } = require("electron");
 const NikoQWindow = require("./main/createWindow");
 const LoginWindow = require("./main/loginWindow");
+const SettingWindow = require("./main/settingWindow");
 const WebsocketEvent = require("./main/websocket/websocketEvent");
 const AutoReconnectWebSocket = require("./main/websocket/websocket");
 const apis = require("./main/api/apis");
@@ -9,6 +10,7 @@ class NikoQ {
   constructor() {
     this.mainWindow = null;
     this.loginWindow = null;
+    this.settingWindow = null;
     this.websocket = null;
     this.websocketEvent = new WebsocketEvent();
     this.isLogin = false;
@@ -24,21 +26,32 @@ class NikoQ {
       this.createNikoQWindow();
       this.mainWindow.hide();
       this.loginWindow.show();
+      this.settingWindow.hide();
     });
     app.on("activate", () => {
       if (this.isLogin) {
         // ログイン済みの場合，設定と本体画面を表示
-        if (this.mainWindow == null) {
+        if (
+          this.mainWindow == null ||
+          this.settingWindow == null ||
+          this.loginWindow == null
+        ) {
           this.createNikoQWindow();
         }
         this.loginWindow.hide();
+        this.settingWindow.hide();
         this.mainWindow.show();
       } else {
         // ログインしていない場合，ログイン画面を表示
-        if (this.loginWindow == null) {
+        if (
+          this.mainWindow == null ||
+          this.settingWindow == null ||
+          this.loginWindow == null
+        ) {
           this.createNikoQWindow();
         }
         this.loginWindow.show();
+        this.settingWindow.hide();
         this.mainWindow.hide();
       }
     });
@@ -78,9 +91,11 @@ class NikoQ {
       this.isLogin = status;
       if (this.isLogin) {
         this.mainWindow.show();
+        this.settingWindow.show();
         this.loginWindow.hide();
       } else {
         this.mainWindow.hide();
+        this.settingWindow.hide();
         this.loginWindow.show();
       }
     });
@@ -107,6 +122,7 @@ class NikoQ {
       this.setupWebsocket();
       // メイン画面切り替え
       this.loginWindow.hide();
+      this.settingWindow.show();
       this.mainWindow.show();
     } else {
       // TODO: たぶんなんらかのエラー
@@ -134,6 +150,8 @@ class NikoQ {
     this.mainWindow.loadFile(`file://${__dirname}/message/index.html`);
     this.loginWindow = new LoginWindow();
     this.loginWindow.loadFile(`file://${__dirname}/login/index.html`);
+    this.settingWindow = new SettingWindow();
+    this.settingWindow.loadFile(`file://${__dirname}/setting/index.html`);
     this.websocketEvent.setMainWc(this.wc);
     this.websocketEvent.setLoginWc(this.loginWc);
   }
@@ -143,6 +161,9 @@ class NikoQ {
   }
   get loginWc() {
     return this.loginWindow.window.webContents;
+  }
+  get settingWc() {
+    return this.settingWindow.window.webContents;
   }
 }
 
