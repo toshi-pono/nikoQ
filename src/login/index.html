@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>nikoQ-login</title>
+    <!--画像はどこからでも読み込み可能-->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'"
+    />
+    <meta charset="utf-8">
+    <script src="login.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="form-wrapper">
+      <h1>NikoQ</h1>
+      <div class="form">
+        <p id="info">ログインしました</p>
+        <div class="form-item">
+          <label for="traQ ID"></label>
+          <input type="email" name="email" id="name" required="required" placeholder="traQ ID"></input>
+        </div>
+        <div class="form-item">
+          <label for="password"></label>
+          <input type="password" name="password" id="password" required="required" placeholder="Password"></input>
+        </div>
+        <div class="button-panel">
+          <input type="button" class="button" id="submit" title="Sign In" value="Sign In"></input>
+        </div>
+      </div>
+      <div class="form-footer">
+        <p>Created by @toshi00</p>
+      </div>
+  </body>
+</html>

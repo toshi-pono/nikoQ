@@ -2,17 +2,33 @@
   "name": "traqtimeline",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "portmac": "npx electron-builder --mac --x64 --dir"
+  },
+  "build": {
+    "appId": "electron.nikoQ.v0",
+    "productName": "nikoQ",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src",
+      "package.json",
+      "package-lock.json"
+    ]
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^11.0.4"
+    "electron": "^11.0.4",
+    "electron-builder": "^22.9.1"
   },
   "dependencies": {
+    "electron-fetch": "^1.7.2",
+    "set-cookie-parser": "^2.4.7",
     "ws": "^7.4.2"
   }
 }
