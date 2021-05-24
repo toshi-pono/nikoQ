@@ -15,8 +15,8 @@ class NikoQWindow {
       width: 800,
       height: 800,
       autoHideMenuBar: true,
-      // frame: false,
-      // transparent: true,
+      frame: false,
+      transparent: true,
       alwaysOnTop: true,
 
       webPreferences: {
@@ -31,10 +31,10 @@ class NikoQWindow {
       },
     });
     // ウィンドウ最大化
-    // this.window.setSimpleFullScreen(true);
-    // this.window.setIgnoreMouseEvents(true);
+    this.window.setSimpleFullScreen(true);
+    this.window.setIgnoreMouseEvents(true);
     // デベロッパーツール
-    this.window.webContents.openDevTools();
+    // this.window.webContents.openDevTools();
   }
   loadFile(url) {
     this.window.loadURL(url);
