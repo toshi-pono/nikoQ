@@ -116,6 +116,22 @@ class Apis {
     });
     return res.status;
   }
+
+  // sessionからクッキーの読み込み
+  loadCookie() {
+    session.defaultSession.cookies
+      .get({ url: "https://q.trap.jp/" })
+      .then((cookies) => {
+        let cookie = "";
+        for (let i = 0; i < cookies.length; i++) {
+          cookie += cookies[i].name + "=" + cookies[i].value + ";";
+        }
+        this.setSession(cookie);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 }
 
 const apis = new Apis("https://q.trap.jp/api/v3");

@@ -27,6 +27,7 @@ class NikoQ {
       this.mainWindow.hide();
       this.loginWindow.show();
       this.settingWindow.hide();
+      apis.loadCookie();
     });
     app.on("activate", () => {
       if (this.isLogin) {
