@@ -23,7 +23,7 @@ window.onload = () => {
     "click",
     () => {
       let msg = {
-        content: "おいす〜〜って言ってみた",
+        content: "テストメッセージ",
         user: {
           bot: false,
           displayName: "とし",
